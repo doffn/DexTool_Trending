@@ -30,77 +30,77 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 driver = webdriver.Chrome(options=chrome_options)
 
 def dextool_trend():
-    while True:
-        try:
-            urls = []
-            token_home = []
-            data = ""
+    try:
+        urls = []
+        token_home = []
+        data = ""
 
-            driver.get('https://www.dextools.io/app/en/pairs')
-            driver.implicitly_wait(10)
+        driver.get('https://www.dextools.io/app/en/pairs')
+        driver.implicitly_wait(10)
 
-            modal = WebDriverWait(driver, 10).until(
+        modal = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "/html/body/ngb-modal-window[1]/div/div/app-video-yt-modal/div[1]/div/h5"))).text
+        print(modal)
+
+        if modal == "WELCOME TO DEXTOOLS":
+            WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located(
-                    (By.XPATH, "/html/body/ngb-modal-window[1]/div/div/app-video-yt-modal/div[1]/div/h5"))).text
-            print(modal)
+                    (By.XPATH, "/html/body/ngb-modal-window[1]/div/div/app-video-yt-modal/div[1]/button"))).send_keys(Keys.RETURN)
+            print("successfully removed modal")
 
-            if modal == "WELCOME TO DEXTOOLS":
-                WebDriverWait(driver, 5).until(
-                    EC.presence_of_element_located(
-                        (By.XPATH, "/html/body/ngb-modal-window[1]/div/div/app-video-yt-modal/div[1]/button"))).send_keys(Keys.RETURN)
-                print("successfully removed modal")
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "/html/body/app-root/div/div/main/app-new-home/app-layout/div/div[1]/div[3]/app-hotpairs-list-dashboard/div")))
 
-            element = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located(
-                    (By.XPATH, "/html/body/app-root/div/div/main/app-new-home/app-layout/div/div[1]/div[3]/app-hotpairs-list-dashboard/div")))
-
-            driver.execute_script("arguments[0].scrollIntoView();", element)
-            for j in range(1,11):
-                try:
-                    token = WebDriverWait(driver, 20).until(
-                        EC.visibility_of_element_located(
-                            (By.XPATH,
-                             f"/html/body/app-root/div/div/main/app-new-home/app-layout/div/div[1]/div[3]/app-hotpairs-list-dashboard/div/div[2]/app-carousel/div/div[2]/ul/app-carousel-item/li/div/app-hot-pairs-list/div/app-hot-pairs/ul/li[{j}]/a")))
-                    href = token.get_attribute("href")
-                    token_info = WebDriverWait(driver, 20).until(
-                        EC.visibility_of_element_located((By.XPATH, f"//app-hot-pairs/ul/li[{j}]"))).text
-                    token_info = token_info.split()
-                    urls.append(href)
-                    token_home.append(token_info)
-                except TimeoutException:
-                    print(f"Timed out waiting for element {j} to become visible")
-            
-            #print(urls)
-            #print(len(token_home))
-            
-            for i in range(0, len(urls)):
-                driver.get(urls[i])
-                time.sleep(5)
-                data = ""
-                try:
-                    WebDriverWait(driver, 20).until(
-                        EC.visibility_of_element_located((By.XPATH,"//app-pool-info/div/button"))).click()
-                    detail = WebDriverWait(driver, 20).until(
-                        EC.visibility_of_element_located((By.XPATH,"//app-pool-info/div/div"))).text
-                    # Split the text into lines and extract the values
-                    detail_list = detail.split("\n")
-                    for j, elem in enumerate(detail_list):
-                        if j == 0:
-                            data += f"{elem} \n"
-                        if j % 2 == 0 and j != 0:
-                            data += f"{detail_list[j-1]}{detail_list[j]} \n"
-                except TimeoutException:
-                    print(f"Timed out waiting for element {i} to become visible")
-            
-                if i < len(token_home):
-                    info = f"Trending on Dextool {token_home[i][0]} Token Name : {token_home[i][1]} Price: {token_home[i][2]} Gain: {token_home[i][3]} \n {data}"
-                    data += f"{info} \n"
-                else:
-                    print("Invalid index or empty list")
-            return data
-        except Exception as e:
-          print(e)
-            
+        driver.execute_script("arguments[0].scrollIntoView();", element)
+        for j in range(1,11):
+            try:
+                token = WebDriverWait(driver, 20).until(
+                    EC.visibility_of_element_located(
+                        (By.XPATH,
+                         f"/html/body/app-root/div/div/main/app-new-home/app-layout/div/div[1]/div[3]/app-hotpairs-list-dashboard/div/div[2]/app-carousel/div/div[2]/ul/app-carousel-item/li/div/app-hot-pairs-list/div/app-hot-pairs/ul/li[{j}]/a")))
+                href = token.get_attribute("href")
+                token_info = WebDriverWait(driver, 20).until(
+                    EC.visibility_of_element_located((By.XPATH, f"//app-hot-pairs/ul/li[{j}]"))).text
+                token_info = token_info.split()
+                urls.append(href)
+                token_home.append(token_info)
+            except TimeoutException:
+                print(f"Timed out waiting for element {j} to become visible")
+        
+        #print(urls)
+        #print(len(token_home))
+        
+        for i in range(0, 1):
+            driver.get(urls[i])
+            time.sleep(5)
+            try:
+                WebDriverWait(driver, 20).until(
+                    EC.visibility_of_element_located((By.XPATH,"//app-pool-info/div/button"))).click()
+                detail = WebDriverWait(driver, 20).until(
+                    EC.visibility_of_element_located((By.XPATH,"//app-pool-info/div/div"))).text
+                # Split the text into lines and extract the values
+                detail_list = detail.split("\n")
+                for j, elem in enumerate(detail_list):
+                    if j == 0:
+                        data += f"{elem} \n"
+                    if j % 2 == 0 and j != 0:
+                        data += f"{detail_list[j-1]}{detail_list[j]} \n"
+            except TimeoutException:
+                print(f"Timed out waiting for element {i} to become visible")
+        
+            if i < len(token_home):
+                info = f"Trending on Dextool {token_home[i][0]} Token Name : {token_home[i][1]} Price: {token_home[i][2]} Gain: {token_home[i][3]} \n {data}"
+                data += f"{info} \n"
+            else:
+                print("Invalid index or empty list")
+        
+    except Exception as e:
+      print(e)
+    finally:
+      return data
+        
             
         
 def restart_program():
@@ -136,6 +136,7 @@ def my_task():
         now_eastern = now_utc.replace(tzinfo=pytz.utc).astimezone(ethiopia_tz)
         ethio_time = now_eastern.strftime("%Y-%m-%d %H:%M:%S ")
         message = dextool_trend()
+        print(message)
         #table = pd.DataFrame(message,columns=['Number', 'Token', 'Price', 'Gain'])
         #table = table.reset_index(drop=True)
         data = f"DEXtool trending @ {ethio_time}\n{message}"
