@@ -187,6 +187,17 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "emoji"
+version = "2.7.0"
+description = "Emoji for Python"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[package.extras]
+dev = ["pytest", "coverage", "coveralls"]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.1.2"
 description = "Backport of PEP 654 (exception groups)"
@@ -501,6 +512,29 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
+name = "pytelegrambotapi"
+version = "4.12.0"
+description = "Python Telegram bot api."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+requests = "*"
+
+[package.extras]
+PIL = ["pillow"]
+aiohttp = ["aiohttp"]
+aioredis = ["aioredis"]
+coloredlogs = ["coloredlogs"]
+fastapi = ["fastapi"]
+json = ["ujson"]
+psutil = ["psutil"]
+redis = ["redis (>=3.4.1)"]
+uvicorn = ["uvicorn"]
+watchdog = ["watchdog"]
+
+[[package]]
 name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
@@ -701,6 +735,18 @@ python-versions = ">=3.7"
 widechars = ["wcwidth"]
 
 [[package]]
+name = "telebot"
+version = "0.0.5"
+description = "A Telegram bot library, with simple route decorators."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pyTelegramBotAPI = "*"
+requests = "*"
+
+[[package]]
 name = "toml"
 version = "0.10.2"
 description = "Python Library for Tom's Obvious, Minimal Language"
@@ -850,7 +896,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10.0,<3.11"
-content-hash = "dc52933967720ab97f723451709e77e61aa95d0581fe14d49f50830d4712771c"
+content-hash = "4b78acc66a7f2250a4e06f79289e5e09efd26cb2fecf27d4bc3c9f68e540e1aa"
 
 [metadata.files]
 aiohttp = []
@@ -868,6 +914,7 @@ click = []
 colorama = []
 cryptography = []
 debugpy = []
+emoji = []
 exceptiongroup = []
 flask = []
 frozenlist = []
@@ -895,6 +942,7 @@ pycryptodomex = []
 pyflakes = []
 pyseto = []
 pysocks = []
+pytelegrambotapi = []
 python-dateutil = []
 python-lsp-jsonrpc = []
 pytoolconfig = []
@@ -910,6 +958,7 @@ sniffio = []
 sortedcontainers = []
 soupsieve = []
 tabulate = []
+telebot = []
 toml = []
 tomli = []
 trio = []
